@@ -1,8 +1,6 @@
 import { View, Text, StyleSheet , ImageBackground} from 'react-native'
 import React from 'react'
 
-import image1 from "@/assets/images/ASU_logo_2.0.png" 
-
 const app = () => {
   return (
     <View style={styles.container}>
