@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import { User } from '../db/db.js'; // Ensure the User model is imported from db.js
+import { Sport } from '../db/db.js';
+import { SportEquipment } from '../db/db.js';
 
 const router = Router();
 
@@ -36,6 +38,22 @@ router.post('/userLogin', async (req, res) => {
         res.status(200).send({ user, token }); // Respond with the user and token
     } catch (error) {
         res.status(400).send(error);
+    }
+});
+
+router.get('/getEquipmentsBySport', async (req, res) => {
+    try {
+        const { sportName } = req.query; // Get the sport name from the query parameters
+        const sport = await Sport.findOne({ name: sportName }); // Find the sport by name
+
+        if (!sport) {
+            return res.status(404).send({ error: 'Sport not found' });
+        }
+
+        const equipments = await SportEquipment.find({ sport: sport._id }); // Find all equipment corresponding to the sport
+        res.status(200).send(equipments); // Respond with the list of equipment
+    } catch (error) {
+        res.status(400).send(error); // Respond with an error
     }
 });
 
