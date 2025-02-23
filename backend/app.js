@@ -19,6 +19,6 @@ app.use(json());
 app.use(logger); // Use the logger middleware
 app.use('/users', userRouter); // Use the user router with the /users prefix
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
     console.log(`Server is up on port ${port}`);
 });
