@@ -15,10 +15,15 @@ const LoginPage = () => {
     }
   };
 
+  const handleForgotPassword = () => {
+    Alert.alert('Forgot Password', 'Redirecting to password reset page...');
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>CampusMind</Text>
-      
+      <Text style={styles.header}>Welcome to CampusMind</Text>
+      <Text style={styles.sub_header}>Sign into your account</Text>
+
       <TextInput
         style={styles.input}
         placeholder="Username"
@@ -32,7 +37,13 @@ const LoginPage = () => {
         secureTextEntry
         value={password}
         onChangeText={setPassword}
+      
       />
+      <View style={styles.forgot_password_container}>
+        <TouchableOpacity onPress={handleForgotPassword}>
+          <Text style={styles.forgot_password}>Forgot Password?</Text>
+        </TouchableOpacity>
+      </View>
 
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
@@ -47,28 +58,42 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#1B263B',
   },
   header: {
-    fontSize: 50,
+    fontSize: 27,
     fontWeight: 'bold',
-    marginBottom: 30,
-    color: '#333',
+    marginBottom: 20,
+    color: '#FFF',
+  },
+  sub_header: {
+    fontSize: 14,
+    marginBottom: 40,
+    color: '#FFF',
   },
   input: {
     width: '100%',
     padding: 10,
     marginBottom: 15,
-    borderWidth: 1,
-    borderColor: '#ccc',
+    borderBottomWidth: 2,
+    borderBottomColor: '#778DA9',
+    color: '#FFF',
     borderRadius: 5,
-    backgroundColor: '#fff',
+  },
+  forgot_password: {
+    color: '#B0C4E0',
+    fontSize: 12,
+  },
+  forgot_password_container: {
+    width: '100%',
+    alignItems: 'flex-end',
   },
   button: {
-    backgroundColor: '#4CAF50',
+    marginTop: 25,
+    backgroundColor: '#778DA9',
     paddingVertical: 12,
-    paddingHorizontal: 50,
-    borderRadius: 5,
+    paddingHorizontal: 140,
+    borderRadius: 10,
   },
   buttonText: {
     color: '#fff',

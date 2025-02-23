@@ -58,18 +58,20 @@ userSchema.methods.generateAuthToken = async function() {
     return token;
 };
 
-userSchema.statics.findByCredentials = async (email, password) => {
-    const user = await User.findOne({ email });
+userSchema.statics.findByCredentials = async function(email, password) {
+    const user = await this.findOne({ email });
+    console.log('Found user:', user); // Debugging log
     if (!user) {
         throw new Error('Login failed! Check authentication credentials');
     }
     const isPasswordMatch = await compare(password, user.password);
+    console.log('Password match:', isPasswordMatch); // Debugging log
     if (!isPasswordMatch) {
         throw new Error('Login failed! Check authentication credentials');
     }
-
     return user;
 };
+
 
 const User = model('User', userSchema);
 

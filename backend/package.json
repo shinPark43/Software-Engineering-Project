@@ -4,6 +4,7 @@
   "description": "CampusMind Mobile Version",
   "main": "app.js",
   "type": "module",
+  "proxy": "http://localhost:8081/",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "env-cmd -f ./.env nodemon app.js"

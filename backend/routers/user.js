@@ -8,36 +8,47 @@ const router = Router();
 // Create a new user
 router.post('/createUser', async (req, res) => {
     try {
-        const { firstName, lastName, CID, email, password } = req.body; // Destructure the input from the request body
+        console.log('Received request body:', req.body);
+        const { firstName, lastName, CID, email, password } = req.body;
 
-        // Check if the user already exists
+        if (!firstName || !lastName || !email || !password) {
+            console.log('Validation failed: missing required fields');
+            return res.status(400).send({ error: 'Missing required fields' });
+        }
+
         const existingUser = await User.findOne({ email });
         if (existingUser) {
+            console.log('Validation failed: email already in use');
             return res.status(400).send({ error: 'Email already in use. Please use another email.' });
         }
 
-        const user = new User({ first_name: firstName, last_name: lastName, CID, email, password }); // Create a new user with the input
-        await user.save(); // Save the user
-        const token = await user.generateAuthToken(); // Generate an authentication token
+        const user = new User({ first_name: firstName, last_name: lastName, CID, email, password });
+        await user.save();
+        const token = await user.generateAuthToken();
 
-        res.status(201).send({ user, token }); // Respond with the user and token
+        res.status(201).send({ user, token });
     } catch (error) {
-        res.status(400).send(error); // Respond with an error
+        console.error('Error in /createUser:', error);
+        res.status(400).send({ error: error.message || 'An error occurred' });
     }
 });
 
 router.post('/userLogin', async (req, res) => {
+    console.log('Request Body:', req.body); // Debugging log
     try {
         const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).send({ error: 'Missing email or password' });
+        }
         const user = await User.findByCredentials(email, password);
         if (!user) {
             return res.status(401).send({ error: 'Login failed! Check authentication credentials' });
         }
-
-        const token = await user.generateAuthToken(); // Generate an authentication token
-        res.status(200).send({ user, token }); // Respond with the user and token
+        const token = await user.generateAuthToken();
+        res.status(200).send({ user, token });
     } catch (error) {
-        res.status(400).send(error);
+        console.error(error);
+        res.status(400).send({ error: 'An error occurred' });
     }
 });
 
